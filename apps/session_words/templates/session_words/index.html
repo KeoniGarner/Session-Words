@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Session Words</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'session_words/css/style.css' %}">
+</head>
+
+<body>
+    <div class="half">
+        <form id="left" action="/add_word" method="post">
+            {% csrf_token %}
+            <h1>Add a new word</h1>
+            <span>
+                <input type="text" name="word" id="word">
+            </span>
+            <h3>Choose color:</h3>
+            <span>Red
+                <input type="radio" name="color" value="red" checked="checked">
+            </span>
+            <span>Green
+                <input type="radio" name="color" value="green">
+            </span>
+            <span>Blue
+                <input type="radio" name="color" value="blue">
+            </span>
+            <span>
+                <input type="checkbox" name="big" id="big" value="big"> Display in BIG font</span>
+            <span id="submit">
+                <input type="submit" value="Add to Session">
+            </span>
+        </form>
+    </div>
+    <div class="half">
+        <form action="/clear">
+            <input type="submit" value="Clear Session">
+        </form>
+        <div name="display" id="display">
+            {% for word in words %}
+            <div class="word {{ word.color }} {{ word.big }}">{{ word.word }}</div>
+            <h4 class="timestamp">- added on {{ word.time }}</h4>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
